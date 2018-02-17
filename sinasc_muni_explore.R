@@ -6,13 +6,13 @@ load("data/geo/state_muni_codes.Rdata")
 load("data/geo/state_muni_shapefiles.Rdata")
 load("data/artifacts/muni_summaries.Rdata")
 
-ggplot(brthwt_muni_region, aes(rank2, meanbwt, ymin = q1, ymax = q3, color = region_name)) +
+ggplot(brthwt_muni_region, aes(rank2, mean_bwt, ymin = q1, ymax = q3, color = region_name)) +
   geom_linerange(color = "gray", alpha = 0.2) +
   geom_point() +
   theme_bw() +
   coord_flip()
 
-ggplot(brthwt_muni_region, aes(rank, meanbwt, color = region_name)) +
+ggplot(brthwt_muni_region, aes(rank, mean_bwt, color = region_name)) +
   # geom_linerange(aes(ymin = q1, ymax = q3), color = "gray", alpha = 0.2) +
   geom_point() +
   geom_smooth(method = "lm", formula = y ~ 1, se = FALSE) +
@@ -62,12 +62,12 @@ leaflet(br_shp) %>%
 
 
 # rbokeh::widget2gist('
-pal <- colorNumeric("viridis", domain = range(muni_shps$meanbwt, na.rm = TRUE))
-pal(muni_shps$meanbwt)
+pal <- colorNumeric("viridis", domain = range(muni_shps$mean_bwt, na.rm = TRUE))
+pal(muni_shps$mean_bwt)
 
 labels <- sprintf(
   "<strong>%s</strong><br/>State: %s<br/>Mean birth weight: %g<br/>Number of births: %g",
-  muni_shps$NOME, muni_shps$state_name, muni_shps$meanbwt, muni_shps$n
+  muni_shps$NOME, muni_shps$state_name, muni_shps$mean_bwt, muni_shps$n
 ) %>% lapply(htmltools::HTML)
 
 p <- leaflet(muni_shps) %>%
@@ -79,10 +79,10 @@ p <- leaflet(muni_shps) %>%
     id = "mapbox.light",
     accessToken = Sys.getenv('MAPBOX_TOKEN'))) %>%
   addPolygons(
-    fillColor = ~pal(meanbwt),
+    fillColor = ~pal(mean_bwt),
     weight = 1,
     opacity = 1,
-    color = ~pal(meanbwt),
+    color = ~pal(mean_bwt),
     fillOpacity = 0.7,
     highlight = highlightOptions(
       weight = 2,
@@ -99,7 +99,7 @@ p <- leaflet(muni_shps) %>%
     weight = 2,
     color = "black"
   ) %>%
-  addLegend(pal = pal, values = ~meanbwt, opacity = 0.7, title = "Birth Weight (g)",
+  addLegend(pal = pal, values = ~mean_bwt, opacity = 0.7, title = "Birth Weight (g)",
     position = "bottomright")
 # ', "Brazil Birth Weight by Municipality")
 

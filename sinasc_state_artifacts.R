@@ -20,7 +20,7 @@ birth_year_state <- snsc %>%
 brthwt_year_state <- snsc %>%
   group_by(m_state_code, birth_year) %>%
   summarise(
-    meanbwt = mean(brthwt_g, na.rm = TRUE),
+    mean_bwt = mean(brthwt_g, na.rm = TRUE),
     pct_low = 100 * length(which(brthwt_g < 2500)) / length(which(!is.na(brthwt_g)))) %>%
   filter(!is.na(m_state_code))
 

@@ -333,7 +333,7 @@ There are over 5500 municipalities, so there will be many possible way to look a
 To start, below is a plot of of the mean birth weight for each municipality plotted by rank within each region of Brazil.
 
 ```{r echo=FALSE}
-ggplot(brthwt_muni_region, aes(rank, meanbwt, color = region_code)) +
+ggplot(brthwt_muni_region, aes(rank, mean_bwt, color = region_code)) +
   geom_point() +
   geom_smooth(method = "lm", formula = y ~ 1, se = FALSE) +
   theme_bw() +
