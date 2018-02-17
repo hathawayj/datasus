@@ -24,6 +24,6 @@ brthwt_year_state <- snsc %>%
     pct_low = 100 * length(which(brthwt_g < 2500)) / length(which(!is.na(brthwt_g)))) %>%
   filter(!is.na(m_state_code))
 
-save(births_st_dlv_y, births_st_edu_y, births_st_gest_y,births_st_race_y,
+save(births_st_dlv_y, births_st_edu_y, births_st_gest_y, births_st_race_y,
   births_st_mar_y, births_st_vst_y, birth_year_state, brthwt_year_state,
   file = "data/artifacts/state_summaries.Rdata")

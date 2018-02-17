@@ -29,4 +29,3 @@ save(daily_births, daily_births_deliv, brthwt_yearly, brthwt_gest_weeks,
   brthwt_preg_type, brthwt_deliv_type, brthwt_sex, brthwt_race, brthwt_m_educ,
   brthwt_marital_status, brthwt_m_age_yrs, brthwt_n_prenatal_visit,
   file = "data/artifacts/brthwt_summaries.Rdata")
-

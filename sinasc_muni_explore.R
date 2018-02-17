@@ -6,20 +6,20 @@ load("data/geo/state_muni_codes.Rdata")
 load("data/geo/state_muni_shapefiles.Rdata")
 load("data/artifacts/muni_summaries.Rdata")
 
-ggplot(brthwt_muni_region, aes(rank2, meanbwt, ymin = q1, ymax = q3, color = region_code)) +
+ggplot(brthwt_muni_region, aes(rank2, meanbwt, ymin = q1, ymax = q3, color = region_name)) +
   geom_linerange(color = "gray", alpha = 0.2) +
   geom_point() +
   theme_bw() +
   coord_flip()
 
-ggplot(brthwt_muni_region, aes(rank, meanbwt, color = region_code)) +
+ggplot(brthwt_muni_region, aes(rank, meanbwt, color = region_name)) +
   # geom_linerange(aes(ymin = q1, ymax = q3), color = "gray", alpha = 0.2) +
   geom_point() +
   geom_smooth(method = "lm", formula = y ~ 1, se = FALSE) +
   theme_bw() +
   scale_color_tableau(guide = FALSE) +
   coord_flip() +
-  facet_wrap(~ region_code, scales = "free_y", ncol = 1, strip.position = "left") +
+  facet_wrap(~ region_name, scales = "free_y", ncol = 1, strip.position = "left") +
   labs(y = "Mean Birthweight", x = "Municipality Rank (within region)")
 
 library(leaflet)
@@ -67,7 +67,7 @@ pal(muni_shps$meanbwt)
 
 labels <- sprintf(
   "<strong>%s</strong><br/>State: %s<br/>Mean birth weight: %g<br/>Number of births: %g",
-  muni_shps$NOME, muni_shps$name, muni_shps$meanbwt, muni_shps$n
+  muni_shps$NOME, muni_shps$state_name, muni_shps$meanbwt, muni_shps$n
 ) %>% lapply(htmltools::HTML)
 
 p <- leaflet(muni_shps) %>%
@@ -102,7 +102,6 @@ p <- leaflet(muni_shps) %>%
   addLegend(pal = pal, values = ~meanbwt, opacity = 0.7, title = "Birth Weight (g)",
     position = "bottomright")
 # ', "Brazil Birth Weight by Municipality")
-
 
 htmlwidgets::saveWidget(p,
   file = file.path(getwd(), "writeup/maps/muni_brthwt.html"), selfcontained = FALSE)

@@ -14,15 +14,21 @@ get_tb_uf <- function() {
       state_name = DS_NOMEPAD, region_code = CO_REGIAO, area = NU_AREA)
 }
 
-read_and_transform <- function(f, sinasc_dict, keep) {
-  b <- read.dbc::read.dbc(f)
+read_and_transform <- function(f, dict, keep) {
+  if (grepl("\\.csv$", f)) {
+    b <- readr::read_csv(f)
+  } else if (grepl("\\.dbf$", f)) {
+    b <- foreign::read.dbf(f)
+  } else {
+    b <- read.dbc::read.dbc(f)
+  }
 
   # sapply(b[keep], function(x) paste0(class(x)[1], "_", length(unique(x))))
   b <- b[, names(b) %in% keep]
 
   for (nm in keep) {
     tmp <- b[[nm]]
-    dct <- sinasc_dict[[nm]]
+    dct <- dict[[nm]]
 
     if (is.factor(tmp))
       tmp <- as.character(tmp)

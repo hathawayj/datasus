@@ -18,13 +18,12 @@ brthwt_muni <- snsc %>%
   filter(!is.na(m_muni_code) & !is.nan(meanbwt)) %>%
   arrange(meanbwt)
 
-muni_codes$code2 <- as.integer(substr(muni_codes$code, 1, 6))
+muni_codes$code2 <- as.integer(substr(muni_codes$muni_code, 1, 6))
 
 brthwt_muni_region <- brthwt_muni %>%
   left_join(muni_codes, by = c(m_muni_code = "code2")) %>%
-  left_join(rename(state_codes, state_name = name), by = c(state_code = "code")) %>%
-  filter(!is.na(code)) %>%
-  select(-code) %>%
+  left_join(state_codes) %>%
+  filter(!is.na(state_code)) %>%
   group_by(region_code) %>%
   mutate(rank = order(meanbwt), region_mnbwt = mean(meanbwt)) %>%
   arrange(state_code, rank) %>%
@@ -33,12 +32,11 @@ brthwt_muni_region <- brthwt_muni %>%
 
 brthwt_muni_region$rank2 <- seq_along(brthwt_muni_region$meanbwt)
 brthwt_muni_region$region_code <- forcats::fct_reorder(brthwt_muni_region$region_code, brthwt_muni_region$region_mnbwt, mean)
+brthwt_muni_region$region_name <- forcats::fct_reorder(brthwt_muni_region$region_name, brthwt_muni_region$region_mnbwt, mean)
 
 muni_shps <- do.call(rbind, muni_shp)
 muni_shps$code <- as.integer(substr(muni_shps$GEOCODIGO, 1, 6))
 muni_shps@data <- left_join(muni_shps@data, brthwt_muni, by = c(code = "m_muni_code"))
-muni_shps@data <- left_join(muni_shps@data, state_codes, by = c(UF = "code"))
+muni_shps@data <- left_join(muni_shps@data, state_codes, by = c(UF = "state_code"))
 
 save(brthwt_muni, brthwt_muni_region, muni_shps, file = "data/artifacts/muni_summaries.Rdata")
-
-load("data/artifacts/muni_summaries.Rdata")

@@ -58,7 +58,7 @@ snsc$m_muni_code <- substr(snsc$m_muni_code, 1, 6)
 # ubc <- unique(snsc$birth_muni_code)
 # umc <- unique(snsc$m_muni_code)
 
-# muni_codes$code2 <- substr(muni_codes$code, 1, 6)
+muni_codes$code2 <- substr(muni_codes$muni_code, 1, 6)
 
 # setdiff(ubc, muni_codes$code2)
 # setdiff(umc, muni_codes$code2)
@@ -77,12 +77,12 @@ snsc$m_muni_code <- substr(snsc$m_muni_code, 1, 6)
 # # PI   Nazária 2206720 220672
 
 # ucd <- as.character(unique(a$MUNCOD))
-# tmp <- lapply(ucd, function(x) muni_codes$code[grepl(paste0("^", x), muni_codes$code)])
+# tmp <- lapply(ucd, function(x) muni_codes$muni_code[grepl(paste0("^", x), muni_codes$muni_code)])
 # names(tmp) <- ucd
 # idx <- unname(which(sapply(tmp, length) != 1))
 # tmp[idx]
 
-# filter(muni_codes, code == "2103703")
+# filter(muni_codes, muni_code == "2103703")
 
 snsc <- left_join(snsc, select(muni_codes, code2, state_code), by = c(m_muni_code = "code2"))
 snsc <- rename(snsc, m_state_code = state_code)

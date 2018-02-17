@@ -28,7 +28,9 @@ opts_chunk$set(
 opts_knit$set(width = 75)
 
 load("../data/artifacts/brthwt_summaries.Rdata")
-load("../data/artifacts/brthwt_summaries.Rdata")
+load("../data/artifacts/state_summaries.Rdata")
+load("../data/artifacts/muni_summaries.Rdata")
+load("../data/artifacts/vrbls.Rdata")
 ```
 
 # Introduction
@@ -331,8 +333,6 @@ There are over 5500 municipalities, so there will be many possible way to look a
 To start, below is a plot of of the mean birth weight for each municipality plotted by rank within each region of Brazil.
 
 ```{r echo=FALSE}
-load("../data/artifacts/muni_summaries.Rdata")
-
 ggplot(brthwt_muni_region, aes(rank, meanbwt, color = region_code)) +
   geom_point() +
   geom_smooth(method = "lm", formula = y ~ 1, se = FALSE) +
@@ -432,8 +432,6 @@ kable(dvars)
 To illustrate the available variables and how they have evolved over time, the plot below shows the variable name on the y-axis and the year on the x-axis. If a dot is plotted for a given variable and year, it means that data is available for that variable in that year. Variable names that are lowercase indicate variables that are present in the data dictionary, while uppercase variable names indicate variables that are not in the data dictionary.
 
 ```{r echo=FALSE, fig.height=9}
-load("../data/artifacts/vrbls.Rdata")
-
 ggplot(vrbls, aes(year, name)) +
   geom_point() +
   theme_bw() +

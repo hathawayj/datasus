@@ -275,172 +275,41 @@ sinasc_dict <- list(
     name_en  = "rep_uf_code",
     label_en = "UF code that reported the record",
     label    = "Código da UF que informou o registro"
-  ),
-  ## these are new starting in 2010 data
-  NOMEPAI = list(
-    type     = "character",
-    name_en  = "",
-    label_en = "",
-    label    = "Nome do pai"
-  ),
-  IDADEPAI = list(
-    type     = "character",
-    name_en  = "",
-    label_en = "",
-    label    = "Idade do pai"
-  ),
-  DTULTMENST = list(
-    type     = "character",
-    name_en  = "",
-    label_en = "",
-    map_en   = c(),
-    label    = "Data da última menstruação (DUM): dd mm aaaa",
-    map      = c()
-  ),
-  SEMAGESTAC = list(
-    type     = "character",
-    name_en  = "",
-    label_en = "",
-    label    = "Número de semanas de gestação"
-  ),
-  TPMETESTIM = list(
-    type     = "character",
-    name_en  = "",
-    label_en = "",
-    map_en   = c(),
-    label    = "Método utilizado",
-    map      = c("1" = "Exame físico",
-                 "2" = "Outro método",
-                 "9" = NA)
-  ),
-  CODCRM = list(
-    type     = "character",
-    name_en  = "",
-    label_en = "",
-    label    = "Código do CRM do médico",
-    map      = c()
-  ),
-  MESPRENAT = list(
-    type     = "character",
-    name_en  = "",
-    label_en = "",
-    label    = "Mês de gestação em que iniciou o pré‐natal"
-  ),
-  TPAPRESENT = list(
-    type     = "character",
-    name_en  = "",
-    label_en = "",
-    map_en   = c(),
-    label    = "Tipo de apresentação do RN",
-    map      = c("1" = "Cefálico",
-                 "2" = "Pélvica ou podálica",
-                 "3" = "Transversa",
-                 "9" = NA)
-  ),
-  STTRABPART = list(
-    type     = "character",
-    name_en  = "",
-    label_en = "",
-    map_en   = c(),
-    label    = "Trabalho de parto induzido?",
-    map      = c("1" = "Sim",
-                 "2" = "Não",
-                 "3" = "Não se aplica",
-                 "9" = NA)
-  ),
-  STCESPARTO = list(
-    type     = "character",
-    name_en  = "",
-    label_en = "",
-    map_en   = c(),
-    label    = "Cesárea ocorreu antes do trabalho de parto iniciar?",
-    map      = c("1" = "Sim",
-                 "2" = "Não",
-                 "3" = "Não se aplica",
-                 "9" = NA)
-  ),
-  TPNASCASSI = list(
-    type     = "character",
-    name_en  = "",
-    label_en = "",
-    map_en   = c(),
-    label    = "Nascimento foi assistido por?",
-    map      = c("1" = "Médico",
-                 "2" = "Enfermeira/obstetriz",
-                 "3" = "Parteira",
-                 "4" = "Outros",
-                 "9" = NA)
-  ),
-  NOMERNASC = list(
-    type     = "character",
-    name_en  = "",
-    label_en = "",
-    label    = "Nome do recém‐nascido"
-  ),
-  NOMERESPO = list(
-    type     = "character",
-    name_en  = "",
-    label_en = "",
-    label    = "Nome do responsável pelo preenchimento"
-  ),
-  TPFUNCRESP = list(
-    type     = "character",
-    name_en  = "",
-    label_en = "",
-    map_en   = c(),
-    label    = "Tipo de função do responsável pelo preenchimento",
-    map      = c("1" = "Médico",
-                 "2" = "Enfermeiro",
-                 "3" = "Parteira",
-                 "4" = "Funcionário do cartório",
-                 "5" = "Outros")
-  ),
-  DSFUNCRESP = list(
-    type     = "character",
-    name_en  = "",
-    label_en = "",
-    label    = "Descrição da função do responsável pelo preenchimento, se a função for “5– Outros”"
-  ),
-  CODPROF = list(
-    type     = "character",
-    name_en  = "",
-    label_en = "",
-    label    = "Código da profissão, se a função for “5– Outros”"
-  ),
-  PROFISSION = list(
-    type     = "character",
-    name_en  = "",
-    label_en = "",
-    label    = "Nome do Profissional, se a função for “5– Outros”"
-  ),
-  COREN = list(
-    type     = "character",
-    name_en  = "",
-    label_en = "",
-    label    = "Nome do profissional enfermeiro"
-  ),
-  CODCOREN = list(
-    type     = "character",
-    name_en  = "",
-    label_en = "",
-    label    = "Código do COREN"
-  ),
-  TPDOCRESP = list(
-    type     = "character",
-    name_en  = "",
-    label_en = "",
-    map_en   = c(),
-    label    = "Tipo do documento do responsável",
-    map      = c("1" = "CNES",
-                 "2" = "CRM",
-                 "3" = "COREN",
-                 "4" = "RG",
-                 "5" = "CPF")
   )
 )
 
 
-
+# CODMUNCART
+# RACACOR_RN
+# DTDECLARAC
+# PARIDADE
+# RACACORN
+# CODUFNATU
+# ESCMAEAGR1
+# CODCART
+# DTREGCART
+# ESCMAE2010
+# NUMREGCART
+# CONSPRENAT
+# DTRECORIG
+# TPROBSON
+# CODMUNNATU
+# CODPAISRES
+# DIFDATA
+# DTNASCMAE
+# NATURALMAE
+# NUMERODV
+# NUMEROLOTE
+# ORIGEM
+# PREFIXODN
+# QTDGESTANT
+# QTDPARTCES
+# QTDPARTNOR
+# RACACORMAE
+# SERIESCMAE
+# STDNEPIDEM
+# STDNNOVA
+# VERSAOSIST
 
 
 # 2005 differs at ESTCIVMAE
@@ -458,3 +327,225 @@ sinasc_dict <- list(
 # 9: Ignored
 
 # http://svs.aids.gov.br/download/Dicionario_de_Dados_SINASC_tabela_DN.pdf
+
+
+# DTULTMENST character 8 Date of last menstruation (DUM): dd mm yyyy
+# SEMAGESTAC Weeks Gest Detail
+# SEMADUM.CN V character 2 Number of weeks of gestation. Thread Tools Method Estimate
+# TPMETODO.C NV character 2 Method used. Values: 1- Physical examination; 2- Another method; 9- Ignored.
+# CODCRM character 10 Physician's CRM code.
+# MESPRENAT 1st month Query
+# MEGEST.CNV character 2 Month of gestation in which the prenatal period began
+# TPAPRESENT character 2 Type of presentation of the RN. Values: 1- Cephalic; 2- Pelvic or breeding; 3- Transverse; 9- Ignored.
+# STTRABPART character 1 Induced labor? Values: 1- Yes; 2- No; 3- No applies; 9- Ignored.
+# STESPART Cesarea Ocorr Plymouth
+# STPARTO.CNV character 1 Caesarean section occurred before labor began? Values: 1- Yes; 2- No; 3- Does not apply; 9- Ignored.
+
+# TPNASCASSI Nas Assisted
+# TPASSIST.CNV character 2 Nascimento was watched by? Values: 1- Medical; 2-Nurse / midwife; 3- Midwife; 4- Others; 9- Ignored.
+# NOMERNASC character 70 Name of newborn
+# NOMERESPO character 70 Name of person in charge
+# TPFUNCRESP character 1 Type of function of the person in charge. Values: 1- Physician; 2- Nurses; 3- Midwife; 4- Employee of the registry; 5- Others. Dtrito
+# CRESP character 70 Description of the function of the person responsible for completing the function for "5- Others".
+# CODPROF character 15 Code of the profession, if the function is "5- Others".
+# PROFISSION character 70 Name of the Professional if the function is "5- Others".
+# COREN character 60 Name of nurse practitioner
+# CODCOREN character 8 COREN Code
+# TPDOCRESP character 1 Type of document of the person in charge. Values: 1-CNES; 2-CRM; 3- COREN; 4-RG; 5-CPF.
+# NUDOCRESP character 20 Document number of the person in charge.
+# CONSPRENAT Inquiries Detail
+# SEMADUM.CN V character 2 Number of prenatal consultations
+# ORGEMISER character 20 Description of the body issuing the document of the person responsible for fill.
+# DTDECLARAC character 8 Date of declaration: dd mm yyyy
+# ESCMAEAGR1 Escape Added ESCAGR1.CNV character 2 Education 2010 aggregate. Values: 00 - No Schooling; 01 - Fundamental I Incomplete; 02 - Fundamental I Complete; 03 - Fundamental II Incomplete; 04 - Fundamental II Complete; 05 - Secondary School Incomplete; 06 - High School Complete; 07 - Incomplete Superior; 08 - Superior Complete; 09 - Ignored; 10 - Fundamental I Incomplete or Nonspecific; 11 - Fundamental II Incomplete or Nonspecific; 12 - Teaching Medium Incomplete or Nonspecific.
+# ESCMAEAGR2 character 2 --------------------
+# TPROBSON Monitor cesarean
+# ROBSON.CNV character 2 Robson Group Code generated by the system
+# STDNEPIDEM DN epidemiological
+# DNNOVA.CNV character 1 Epidemiological DO status. Values: 1 - YES; 0 - NO.
+# STDNNOVA New DN model
+# DNNOVA.CNV character 1 New DO status. Values: 1 - YES; 0 - NO.
+
+
+
+
+# ## these are new starting in 2010 data
+# NOMEPAI = list(
+#   type     = "character",
+#   name_en  = "f_name",
+#   label_en = "Father's name",
+#   label    = "Nome do pai"
+# ),
+# IDADEPAI = list(
+#   type     = "character",
+#   name_en  = "f_age",
+#   label_en = "Father's age",
+#   label    = "Idade do pai"
+# ),
+# DTULTMENST = list(
+#   type     = "character",
+#   name_en  = "menst_date",
+#   label_en = "Date of last menstruation in in ddmmyyyy format",
+#   map_en   = c(),
+#   label    = "Data da última menstruação (DUM): dd mm aaaa",
+#   map      = c()
+# ),
+# SEMAGESTAC = list(
+#   type     = "character",
+#   name_en  = "gage_weeks",
+#   label_en = "Number of weeks of gestation",
+#   label    = "Número de semanas de gestação"
+# ),
+# TPMETESTIM = list(
+#   type     = "character",
+#   name_en  = "gage_method",
+#   label_en = "Method used (to estimate gestational age??)",
+#   map_en   = c("1" = "Physical examination",
+#                "2" = "Another method"),
+#   label    = "Método utilizado",
+#   map      = c("1" = "Exame físico",
+#                "2" = "Outro método",
+#                "9" = NA)
+# ),
+# CODCRM = list(
+#   type     = "character",
+#   name_en  = "crm_code",
+#   label_en = "Physician's CRM code",
+#   label    = "Código do CRM do médico"
+# ),
+# MESPRENAT = list(
+#   type     = "character",
+#   name_en  = "prenat_gmonth",
+#   label_en = "Month of gestation in which the prenatal period began",
+#   label    = "Mês de gestação em que iniciou o pré‐natal"
+# ),
+# TPAPRESENT = list(
+#   type     = "character",
+#   name_en  = "present_type",
+#   label_en = "Type of presentation of the RN",
+#   map_en   = c("1" = "Cephalic",
+#                "2" = "Pelvic or breeding",
+#                "3" = "Transverse",
+#                "9" = NA),
+#   label    = "Tipo de apresentação do RN",
+#   map      = c("1" = "Cefálico",
+#                "2" = "Pélvica ou podálica",
+#                "3" = "Transversa",
+#                "9" = NA)
+# ),
+# STTRABPART = list(
+#   type     = "character",
+#   name_en  = "induced",
+#   label_en = "Induced labor?",
+#   map_en   = c("1" = "Yes",
+#                "2" = "No",
+#                "3" = "Not applicable",
+#                "9" = NA),
+#   label    = "Trabalho de parto induzido?",
+#   map      = c("1" = "Sim",
+#                "2" = "Não",
+#                "3" = "Não se aplica",
+#                "9" = NA)
+# ),
+# STCESPARTO = list(
+#   type     = "character",
+#   name_en  = "",
+#   label_en = "",
+#   map_en   = c(),
+#   label    = "Cesárea ocorreu antes do trabalho de parto iniciar?",
+#   map      = c("1" = "Sim",
+#                "2" = "Não",
+#                "3" = "Não se aplica",
+#                "9" = NA)
+# ),
+# TPNASCASSI = list(
+#   type     = "character",
+#   name_en  = "assist",
+#   label_en = "Birth was assisted by?",
+#   map_en   = c("1" = "Medical",
+#                "2" = "Nurse / midwife",
+#                "3" = "Midwife",
+#                "4" = "Others",
+#                "9" = "Ignored."),
+#   label    = "Nascimento foi assistido por?",
+#   map      = c("1" = "Médico",
+#                "2" = "Enfermeira/obstetriz",
+#                "3" = "Parteira",
+#                "4" = "Outros",
+#                "9" = NA)
+# ),
+# # QUESTION: obstetriz and obstetriz both translate as widwife
+# NOMERNASC = list(
+#   type     = "character",
+#   name_en  = "n_name",
+#   label_en = "Name of newborn",
+#   label    = "Nome do recém‐nascido"
+# ),
+# NOMERESPO = list(
+#   type     = "character",
+#   name_en  = "ic_name",
+#   label_en = "Name of person in charge",
+#   label    = "Nome do responsável pelo preenchimento"
+# ),
+# TPFUNCRESP = list(
+#   type     = "character",
+#   name_en  = "ic_role",
+#   label_en = "Role of the person in charge",
+#   map_en   = c("1" = "Physician",
+#                "2" = "Nurse",
+#                "3" = "Midwife",
+#                "4" = "Employee of the registry",
+#                "5" = "Others"),
+#   label    = "Tipo de função do responsável pelo preenchimento",
+#   map      = c("1" = "Médico",
+#                "2" = "Enfermeiro",
+#                "3" = "Parteira",
+#                "4" = "Funcionário do cartório",
+#                "5" = "Outros")
+# ),
+# DSFUNCRESP = list(
+#   type     = "character",
+#   name_en  = "ic_role_desc",
+#   label_en = "Description of the role of the person for 'ic_role' if 'Other' was specified",
+#   label    = "Descrição da função do responsável pelo preenchimento, se a função for “5– Outros”"
+# ),
+# CODPROF = list(
+#   type     = "character",
+#   name_en  = "ic_role_prof",
+#   label_en = "Code of the profession for 'ic_role' if 'Other' was specified",
+#   label    = "Código da profissão, se a função for “5– Outros”"
+# ),
+# PROFISSION = list(
+#   type     = "character",
+#   name_en  = "ic_role_name",
+#   label_en = "Name of the profession for 'ic_role' if 'Other' was specified",
+#   label    = "Nome do Profissional, se a função for “5– Outros”"
+# ),
+# COREN = list(
+#   type     = "character",
+#   name_en  = "np_name",
+#   label_en = "Name of nurse practitioner",
+#   label    = "Nome do profissional enfermeiro"
+# ),
+# CODCOREN = list(
+#   type     = "character",
+#   name_en  = "np_code",
+#   label_en = "Nurse practitioner code",
+#   label    = "Código do COREN"
+# ),
+# TPDOCRESP = list(
+#   type     = "character",
+#   name_en  = "np_doc_type",
+#   label_en = "Type of document of the person in charge",
+#   map_en   = c("1" = "CNES",
+#                "2" = "CRM",
+#                "3" = " COREN",
+#                "4" = "RG",
+#                "5" = "CPF"),
+#   label    = "Tipo do documento do responsável",
+#   map      = c("1" = "CNES",
+#                "2" = "CRM",
+#                "3" = "COREN",
+#                "4" = "RG",
+#                "5" = "CPF")
+# )

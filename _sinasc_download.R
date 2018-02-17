@@ -14,4 +14,3 @@ download.file(fin[1], destfile = "/tmp/test.DBC")
 
 for (i in 2:length(fout))
   download.file(fin[i], destfile = fout[i], mode = "wb")
-
