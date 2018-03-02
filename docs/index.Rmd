@@ -653,7 +653,7 @@ This warrants further exploration.
 
 There was a lot of variability in the previous plot when averaging across all births within each municipality. To try to see things more clearly, here we also take into account the most important factor impacting birth weight -- gestational age at birth.
 
-```{r echo=FALSE, warning=FALSE, message=FALSE, fig.width=10}
+```{r echo=FALSE, warning=FALSE, message=FALSE, fig.width=8}
 ggplot(brthwt_inc_ga, aes(mean_inc, mean_bwt)) +
   geom_point(alpha = 0.15) +
   geom_smooth(method = "loess", span = 1, se = FALSE) +
@@ -670,7 +670,7 @@ ggplot(brthwt_inc_ga, aes(mean_inc, mean_bwt)) +
 
 This plot shows average birth weight vs. average income for each municipality by gestational age group for 2000 and 2010. Each point represents a municipality for the given year and gestational age group. A blue trend line is added, and the dashed line indicates the cutoff for low birth weight. Note that both the x and y axes are on the log scale, with axis tick labels at "nice" break points.
 
-We again see a very interesting result here, where low-income municipalities have children with higher birth weight on average in all of the pre-term gestational age groups, while income does not seem to be related to birth weight on term babies. Breaking out by gestational age helps us see that the relationship is more prounounced for certain gestational age groups.
+We again see a very interesting result here, where low-income municipalities have children with higher birth weight on average in all of the pre-term gestational age groups, while income does not seem to be related to birth weight on term babies. Breaking out by gestational age helps us see that the relationship is more pronounced for certain gestational age groups. It also seems more pronounced in 2010 vs. 2000.
 
 This phenomenon is interesting, and I cannot think of a logical explanation for it. It is good here to consider the idea of [ecological fallacies](https://en.wikipedia.org/wiki/Ecological_fallacy), where when looking at relationships based on aggregate measures, it can be dangerous to draw conclusions about individuals.
 
