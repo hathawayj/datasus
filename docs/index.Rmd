@@ -15,6 +15,11 @@ output:
 library(knitr)
 library(rmdformats)
 library(dplyr)
+library(ggplot2)
+library(ggthemes)
+library(forcats)
+library(geofacet)
+source("../_fns.R")
 
 ## Global options
 options(max.print = "75")
@@ -35,6 +40,7 @@ load("../data/artifacts/muni_census_ga.Rdata")
 load("../data/artifacts/vrbls.Rdata")
 load("../data/artifacts/census_rendabr.Rdata")
 load("../data/geo/state_muni_shapefiles.Rdata")
+load("../data/geo/state_muni_codes.Rdata")
 ```
 
 # Introduction
@@ -557,7 +563,7 @@ This plot shows geographically the trend of the proportion of households living 
 ### Income over time by state and race
 
 ```{r echo=FALSE, warning=FALSE, message=FALSE, fig.height=10, fig.width=10}
-state_race_inc <- d %>%
+state_race_inc <- rendabr %>%
   group_by(state_code, race, year) %>%
   summarise(
     mean_inc = sum(house_inc) / sum(pop),
@@ -613,7 +619,7 @@ ggplot(muni_inc10, aes(state_name, mean_inc, color = region_name)) +
 
 Above are boxplots of the average municipality-level average household income for each state. The x-axis is on a log base 10 scale. This helps us see the variability of municipality income within each state and across all municapilities, and we see a large span. Another observation from this plot is that there are wealthy municipalities that do make the same average income as that in the federal district, such that the federal district does not seem like as much of an outlier when considering other wealthy pockets of geography.
 
-# Combining Census and SINASC
+# Census + SINASC
 
 One ultimate goal of looking at the SINASC and census data is to explore the relationship between birth weight and income. Ideally we would be able to have individual-level income data and link this to the SINASC data. Since we don't have that, the best we can do is summarize birth weight at the municipality level and merge that with the municipality-level census data.
 
@@ -660,7 +666,7 @@ ggplot(brthwt_inc_ga, aes(prop_4mw, prop_low_bwt)) +
     y = "Proportion of low birth weight births")
 ```
 
-Here, looking at the same gestational age group as the previous plot, we see that as we look at municipalities with higher proportions of households living in poverty, we tend to see decreased proportions of low birth weight births. This is more in line with what we would expect to see.
+Here, looking at the same gestational age group as the previous plot, we see that as we look at municipalities with higher proportions of households living in poverty, we tend to see decreased proportions of low birth weight births. This is counterintuitive and we need to do some spot checks to verify the data.
 
 Another interesting insight from this plot is that for term births, the proportion of low birth weight births is pretty consistent regardless of the prevalance of poverty in the municipality.
 
@@ -668,7 +674,7 @@ Another interesting insight from this plot is that for term births, the proporti
 
 Another useful thing to do here would be to compute an estimate of birth WAZ based on the gestational age at birth range provided for each child, and then use that z-score to look at the metric of small for gestational age (SGA) instead of looking at low birth weight broken down by gestational age at birth.
 
-# SINASC Data Preparation
+# SINASC Data Prep
 
 ## Access
 
@@ -729,7 +735,7 @@ Given the many more variables that are available from 2010 and beyond, it may be
 - Municipality codes are converted to integers to save storage space.
 - A few implausible values are set to `NA`: `m_age_yrs` of 0 or 99, `brthwt_g` of 0 or 9999, `apgar1` and `apgar5` of 99.
 
-# Census Data Preparation
+# Census Data Prep
 
 Text coming soon. See code linked to below for more information.
 
