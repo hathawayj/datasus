@@ -4,6 +4,7 @@ library(ggthemes)
 library(geofacet)
 
 load("data/artifacts/brthwt_summaries.Rdata")
+load("data/artifacts/state_summaries.Rdata")
 
 ## how many mother's and birth state codes differ?
 ##---------------------------------------------------------
@@ -82,7 +83,8 @@ ggplot(brthwt_year_state, aes(birth_year, pct_low)) +
     xmin = -Inf, ymin = -Inf, xmax = Inf, ymax = Inf, alpha = 0.5, inherit.aes = FALSE) +
   geom_point() +
   theme_bw() +
-  scale_fill_viridis_c("% Low\nBirthweight\n(2015)") +
+  # scale_fill_viridis_c("% Low\nBirthweight\n(2015)") +
+  viridis::scale_fill_viridis("% Low\nBirthweight\n(2015)") +
   scale_x_continuous(labels = function(x) paste0("'", substr(x, 3, 4))) +
   facet_geo(~ m_state_code, grid = "br_states_grid2", label = "name") +
   theme(strip.text.x = element_text(margin = margin(0.1, 0, 0.1, 0, "cm"), size = 7)) +
@@ -93,6 +95,19 @@ brthwt_year_state %>%
   group_by(m_state_code) %>%
   summarise(diff = diff(pct_low)) %>%
   arrange(-diff)
+
+
+## mother's age
+##---------------------------------------------------------
+
+ggplot(births_st_mage_y2, aes(birth_year, med)) + # , ymin = q1, ymax = q3)) +
+  geom_point(size = 2) +
+  theme_bw() +
+  # geom_errorbar(width = 0.2) +
+  facet_geo(~ m_state_code, grid = "br_states_grid2", label = "name") +
+  theme(strip.text.x = element_text(margin = margin(0.1, 0, 0.1, 0, "cm"), size = 7)) +
+  labs(x = "Birth Year", y = "Median Mother's Age")
+
 
 
 ##

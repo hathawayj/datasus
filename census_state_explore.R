@@ -45,37 +45,58 @@ ggplot(state_inc10, aes(mean_inc, state_name, color = region_name)) +
   facet_grid(region_name ~ ., scales = "free_y", space = "free_y") +
   theme_bw() +
   scale_color_tableau(guide = FALSE) +
-  labs(y = NULL, x = "Mean household income")
+  expand_limits(x = 0) +
+  labs(y = NULL, x = "Average monthly household income (R$)")
 
 ggplot(state_inc10p, aes(prop_4mw * 100, state_name, color = region_name)) +
   geom_point(size = 2) +
   facet_grid(region_name ~ ., scales = "free_y", space = "free_y") +
   theme_bw() +
   scale_color_tableau(guide = FALSE) +
+  expand_limits(x = 0) +
   labs(
     y = NULL,
-    x = "Percentage of population with average household income less than 1/4 minimum wage")
+    x = "Percentage with household income less than 1/4 minimum wage")
 
 ## over time by state
 ##---------------------------------------------------------
 
 ggplot(state_inc, aes(year, prop_4mw * 100)) +
-  # geom_rect(data = birth_col, aes(fill = val),
-  #   xmin = -Inf, ymin = -Inf, xmax = Inf, ymax = Inf, alpha = 0.5,
-  #   inherit.aes = FALSE) +
   geom_area(aes(fill = region_name), alpha = 0.5) +
   geom_point() +
-  scale_fill_tableau(guide = FALSE) +
-  # geom_abline(slope = 0, intercept = 0, alpha = 0.25) +
+  scale_fill_tableau("tableau10", "Region") +
+  scale_x_continuous(labels = function(x) paste0("'", substr(x, 3, 4))) +
   theme_bw() +
-  # scale_fill_gradient2("% Change\n2001 - 2015") +
-  # scale_x_continuous(labels = function(x) paste0("'", substr(x, 3, 4))) +
-  # scale_fill_viridis_c("% Change 2015") +
   facet_geo(~ state_code, grid = "br_states_grid2", label = "name") +
   theme(strip.text.x = element_text(margin = margin(0.1, 0, 0.1, 0, "cm"), size = 7)) +
   labs(
     x = "Year",
-    y = "Percentage of population with average household income less than 1/4 minimum wage")
+    y = "Percentage with household income less than 1/4 minimum wage")
+
+## see how race income has changed over time
+##---------------------------------------------------------
+
+state_race_inc <- d %>%
+  group_by(state_code, race, year) %>%
+  summarise(
+    mean_inc = sum(house_inc) / sum(pop),
+    prop_4mw = sum(pop_4mw) / sum(pop),
+    pop = sum(pop)) %>%
+  left_join(state_codes) %>%
+  ungroup() %>%
+  mutate(state_name = fct_reorder(state_name, mean_inc))
+
+ggplot(state_race_inc, aes(year, mean_inc, color = race, group = race)) +
+  geom_line(color = "black", alpha = 0.2) +
+  geom_point(alpha = 0.6, size = 2) +
+  scale_color_tableau("tableau10", "Region") +
+  scale_x_continuous(labels = function(x) paste0("'", substr(x, 3, 4))) +
+  theme_bw() +
+  facet_geo(~ state_code, grid = "br_states_grid2", label = "name", scales = "free_y") +
+  theme(strip.text.x = element_text(margin = margin(0.1, 0, 0.1, 0, "cm"), size = 7)) +
+  labs(
+    x = "Year",
+    y = "Average household income (R$)")
 
 
 

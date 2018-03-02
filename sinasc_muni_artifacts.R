@@ -55,10 +55,24 @@ brthwt_muni_deliv_year <- snsc %>%
     q3 = quantile(brthwt_g, 0.75, na.rm = TRUE)) %>%
   filter(!is.na(m_muni_code) & !is.nan(mean_bwt))
 
+brthwt_muni_ga_year <- snsc %>%
+  group_by(m_muni_code, birth_year, gest_weeks) %>%
+  summarise(
+    mean_bwt = mean(brthwt_g, na.rm = TRUE),
+    sd_bwt = sd(brthwt_g, na.rm = TRUE),
+    n = length(which(!is.na(brthwt_g))),
+    prop_low_bwt = length(which(brthwt_g < 2500)) / n,
+    q1 = quantile(brthwt_g, 0.25, na.rm = TRUE),
+    q3 = quantile(brthwt_g, 0.75, na.rm = TRUE)) %>%
+  filter(!is.na(m_muni_code) & !is.nan(mean_bwt))
+
 muni_shps <- do.call(rbind, muni_shp)
 muni_shps$code <- as.integer(substr(muni_shps$GEOCODIGO, 1, 6))
 muni_shps@data <- left_join(muni_shps@data, brthwt_muni, by = c(code = "m_muni_code"))
 muni_shps@data <- left_join(muni_shps@data, state_codes, by = c(UF = "state_code"))
 
-save(brthwt_muni, brthwt_muni_region, brthwt_muni_year, muni_shps,
+# load("data/artifacts/muni_summaries.Rdata")
+save(brthwt_muni, brthwt_muni_region, brthwt_muni_year,
+  brthwt_muni_ga_year, brthwt_muni_deliv_year, muni_shps,
   file = "data/artifacts/muni_summaries.Rdata")
+
