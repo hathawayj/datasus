@@ -46,7 +46,13 @@ a <- readr::read_csv(ff[1])
 # this just has total population for each municipality / year
 # see docs/populacaoTCU_en
 ff <- list.files("data/datasus/IBGE/POPTCU", recursive = TRUE, full.names = TRUE, pattern = "\\.csv")
-a <- readr::read_csv(ff[1])
+
+pop <- lapply(ff, readr::read_csv)
+
+pop <- dplyr::bind_rows(pop)
+names(pop) <- c("muni_code", "year", "pop")
+
+save(pop, file = "data/census_pop.Rdata")
 
 
 

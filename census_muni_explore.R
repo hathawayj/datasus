@@ -3,6 +3,7 @@ library(ggplot2)
 library(ggthemes)
 library(forcats)
 library(geofacet)
+library(dplyr)
 
 if (!"census" %in% ls())
   load("data/census.Rdata")
