@@ -52,6 +52,25 @@ ggplot(brthwt_inc_ga, aes(mean_inc, mean_bwt)) +
 #     x = "Proportion with household income < 1/4 minimum wage",
 #     y = "Proportion with low birth weight (g)")
 
+##
+##---------------------------------------------------------
+
+filter(ga_deliv_year_inc, !is.na(income_bin)) %>%
+  ggplot(aes(x = birth_year, y = perc)) +
+  geom_ribbon(aes(ymin = perc - 1.96 * pse, ymax = perc + 1.96 * pse, fill = deliv_type),
+    alpha = 0.3) +
+  geom_point(aes( color = deliv_type), show.legend = FALSE) +
+  geom_line(aes( color = deliv_type), show.legend = FALSE) +
+  facet_wrap(~ gest_weeks + income_bin, scales = "free_y") +
+  facet_grid(gest_weeks ~ income_bin, scales = "free_y") +
+  labs(
+    x = "Birth Year",
+    y = "Percent in group (delivery type and gestantional age) by year",
+    fill = "Delivery type") +
+  theme_bw() +
+  guides(fill = guide_legend(override.aes = list(alpha = 1))) +
+  scale_fill_tableau() +
+  scale_color_tableau()
 
 # filter(brthwt_inc_ga, prop_low_bwt > 0.95 & prop_4mw < 0.05 & gest_weeks == "22-27 weeks")
 

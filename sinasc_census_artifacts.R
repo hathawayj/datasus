@@ -52,7 +52,36 @@ brthwt_inc_ga <- left_join(
   muni_inc2,
   by = c(m_muni_code = "muni_code", year = "year"))
 
+## bin 2000 and 2010 municipalities by income
+##---------------------------------------------------------
+
+# breaks <- quantile(muni_inc2$mean_inc, c(seq(0, 1, length = 8)))
+breaks <- c(0, 200, 400, 800, 1500, 3500)
+lbls <- paste0("R$ ", breaks[1:5], "-", breaks[2:6])
+
+hist(muni_inc2$mean_inc)
+abline(v = breaks, col = "red")
+
+muni_inc2 <- muni_inc2 %>%
+  mutate(income_bin = cut(mean_inc, breaks, labels = lbls))
+
+ga_deliv_year_inc <- snsc %>%
+  mutate(
+    gest_weeks = fct_collapse(gest_weeks,
+   `Less than 27 weeks` = c("22-27 weeks", "Less than 22 weeks"),
+   `More than 37 weeks` = c("37-41 weeks", "42 weeks and more"),
+   `28-31 weeks` = "28 to 31 weeks",
+   `32-36 weeks` = "32-36 weeks")) %>%
+  left_join(filter(muni_inc2, year == 2010), by = c(m_muni_code = "muni_code")) %>%
+  group_by(income_bin, gest_weeks, deliv_type, birth_year) %>%
+  summarise(n = n(), birth_mean = mean(brthwt_g, na.rm = 2)) %>%
+  filter(!is.na(gest_weeks), !is.na(deliv_type)) %>%
+  ungroup() %>%
+  group_by(income_bin, birth_year) %>%
+  mutate(perc = n / sum(n, na.rm = T), pse = sqrt(perc * (1 - perc) / n))
+
 ##
 ##---------------------------------------------------------
 
-save(brthwt_inc, brthwt_inc_ga, file = "data/artifacts/muni_census_ga.Rdata")
+load("data/artifacts/muni_census_ga.Rdata")
+save(brthwt_inc, brthwt_inc_ga, ga_deliv_year_inc, file = "data/artifacts/muni_census_ga.Rdata")

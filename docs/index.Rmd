@@ -41,6 +41,7 @@ load("../data/artifacts/vrbls.Rdata")
 load("../data/artifacts/census_rendabr.Rdata")
 load("../data/geo/state_muni_shapefiles.Rdata")
 load("../data/geo/state_muni_codes.Rdata")
+load("../data/artifacts/gest_deliv_props.Rdata")
 ```
 
 # Introduction
@@ -267,7 +268,7 @@ This plot shows the percentage change in number of births over time and by state
 
 Each panel of the display is colored according to the 2015 percent change value to help draw attention to states that have had a net increase or decrease in number of births. This plot does not take population into account.
 
-### Percentage of Children Born With Low Birthweight
+### Percentage of Children Born With Low Birth Weight
 
 ```{r echo=FALSE, warning=FALSE, message=FALSE, fig.height=7}
 brthwt_col <- brthwt_year_state %>%
@@ -279,11 +280,11 @@ ggplot(brthwt_year_state, aes(birth_year, pct_low)) +
     xmin = -Inf, ymin = -Inf, xmax = Inf, ymax = Inf, alpha = 0.5, inherit.aes = FALSE) +
   geom_point() +
   theme_bw() +
-  viridis::scale_fill_viridis("% Low\nBirthweight\n(2015)") +
+  viridis::scale_fill_viridis("% Low\nBirth Weight\n(2015)") +
   scale_x_continuous(labels = function(x) paste0("'", substr(x, 3, 4))) +
   facet_geo(~ m_state_code, grid = "br_states_grid2", label = "name") +
   theme(strip.text.x = element_text(margin = margin(0.1, 0, 0.1, 0, "cm"), size = 7)) +
-  labs(x = "Birth Year", y = "Percentage of Children Born with Low Birthweight")
+  labs(x = "Birth Year", y = "Percentage of Children Born with Low Birth Weight")
 ```
 
 This plot shows the yearly percentage of children born with low birth weight for each state. While we saw earlier that the overall distribution of birth weight for the entire population does not change over time, when looking at percentage of low birth weight children over time by state, We see that this statistic is not necessarily constant over time.
@@ -342,7 +343,7 @@ Here we have binned the mother's age into teens, twenties, thirties, and forties
 
 ### Median Mother's Age
 
-```{r echo=FALSE, warning=FALSE, message=FALSE, fig.height=7}
+```{r echo=FALSE, warning=FALSE, message=FALSE, fig.height=7, fig.width=7}
 ggplot(births_st_mage_y2, aes(birth_year, med)) + # , ymin = q1, ymax = q3)) +
   geom_point(size = 2) +
   theme_bw() +
@@ -370,7 +371,7 @@ ggplot(brthwt_muni_region, aes(rank, mean_bwt, color = region_code)) +
   scale_color_tableau(guide = FALSE) +
   coord_flip() +
   facet_wrap(~ region_code, scales = "free_y", ncol = 1, strip.position = "left") +
-  labs(y = "Mean Birthweight", x = "Municipality Rank (within region)")
+  labs(y = "Mean Birth Weight", x = "Municipality Rank (within region)")
 ```
 
 For reference, below is a map with these regions indicated in the same colors.
@@ -619,13 +620,11 @@ ggplot(muni_inc10, aes(state_name, mean_inc, color = region_name)) +
 
 Above are boxplots of the average municipality-level average household income for each state. The x-axis is on a log base 10 scale. This helps us see the variability of municipality income within each state and across all municapilities, and we see a large span. Another observation from this plot is that there are wealthy municipalities that do make the same average income as that in the federal district, such that the federal district does not seem like as much of an outlier when considering other wealthy pockets of geography.
 
-# Census + SINASC
+# Birth Weight vs Income
 
-One ultimate goal of looking at the SINASC and census data is to explore the relationship between birth weight and income. Ideally we would be able to have individual-level income data and link this to the SINASC data. Since we don't have that, the best we can do is summarize birth weight at the municipality level and merge that with the municipality-level census data.
+One ultimate goal of looking at the SINASC and census data is to join them together to explore the relationship between birth weight and income. Ideally we would be able to have individual-level income data and link this to the SINASC data. Since we don't have that, the best we can do is summarize birth weight at the municipality level and merge that with the municipality-level census income data.
 
-We have census observed at 2000 and 2010. The SINASC data runs from 2001 to 2015. To join the data, we decided to match the 2000 census data with the 2001 SINASC data, and in a similar fashion match the 2010 census data to the 2011 SINASC data.
-
-Beyond looking at the municipality level, we also break the data down by gestational age at birth, since that alone has a major impact on birth weight. Breaking things out this way helps remove the confounding of gestational age from our visualizations.
+We have census data observed at 2000 and 2010. The SINASC data runs from 2001 to 2015. To join the data, we decided to match the 2000 census data with the 2001 SINASC data, and in a similar fashion match the 2010 census data to the 2011 SINASC data.
 
 ### Average birth weight vs. average income for each municipality
 
@@ -638,7 +637,7 @@ ggplot(filter(brthwt_inc, n >= 10 & !is.na(mean_bwt)), aes(mean_inc, mean_bwt)) 
   facet_wrap(~ year) +
   theme_bw() +
   labs(
-    title = "Mean birthweight vs. mean income for each municipality by census year",
+    # title = "Mean birth weight vs. mean income for each municipality by census year",
     x = "Mean monthly income (R$)",
     y = "Mean birth weight (g)")
 ```
@@ -663,7 +662,7 @@ ggplot(brthwt_inc_ga, aes(mean_inc, mean_bwt)) +
   facet_grid(year ~ gest_weeks) +
   theme_bw() +
   labs(
-    title = "Mean birthweight vs. mean income for each municipality by gestational age at birth and census year",
+    # title = "Mean birth weight vs. mean income for each municipality by gestational age at birth and census year",
     x = "Mean monthly income (R$)",
     y = "Mean birth weight (g)")
 ```
@@ -674,9 +673,96 @@ We again see a very interesting result here, where low-income municipalities hav
 
 This phenomenon is interesting, and I cannot think of a logical explanation for it. It is good here to consider the idea of [ecological fallacies](https://en.wikipedia.org/wiki/Ecological_fallacy), where when looking at relationships based on aggregate measures, it can be dangerous to draw conclusions about individuals.
 
-### Note
+### A closer look at delivery type
 
-Another useful thing to do here would be to compute an estimate of birth WAZ based on the gestational age at birth range provided for each child, and then use that z-score to look at the metric of small for gestational age (SGA) instead of looking at low birth weight broken down by gestational age at birth.
+One idea to investigate to try to get a better understanding of the lower-income / higher-birth-weight phenomenon that is more pronounced in 2010 vs. 2000 is to look at how the number of births in each gestational age group has changed over time.
+
+Below is a plot showing, for each gestational age group, the percentage of births that fall within that group by delivery type and by year. For any given year, all of the values across all gestational age groups and delivery type sum to 1. The axes of each panel are rescaled to fit the data in the panel.
+
+```{r echo=FALSE, warning=FALSE, message=FALSE, fig.width=9}
+gest_deliv_year %>%
+  ggplot(aes(x = birth_year, y = perc)) +
+  geom_ribbon(aes(ymin = perc - 1.96 * pse, ymax = perc + 1.96 * pse, fill = deliv_type),
+    alpha = 0.3) +
+  geom_point(aes( color = deliv_type), show.legend = FALSE) +
+  geom_line(aes( color = deliv_type), show.legend = FALSE) +
+  facet_wrap(~gest_weeks, nrow = 1, scales = "free_y") +
+  labs(
+    x = "Birth Year",
+    y = "Percent in group (delivery type and gestantional age) by year",
+    fill = "Delivery type") +
+  theme_bw() +
+  guides(fill = guide_legend(override.aes = list(alpha = 1))) +
+  scale_fill_tableau() +
+  scale_color_tableau()
+```
+
+The 32-36 week period is interesting. The percentage of births in this range has increased significantly over time, both cesarean and vaginal. Is this increase due to people electing to give birth early, or is something happening in the general population that is skewing births earlier? . Also, is this increase in pre-term births more prominent in higher-income areas?. If people are electing to deliver early then the weights will be small.
+
+### Delivery type by gestational age and income bin
+
+We want to explore the idea that maybe wealthier mothers are electing to have babies earlier than term. One thing we can investigate is whether patterns of the above plot vary across different income groups. To look at this, we binned municipalities into 5 groups of average income bins and then used these bins to aggregate births across time, delivery type, and gestational age.
+
+```{r echo=FALSE, warning=FALSE, message=FALSE, fig.height=7, fig.width=8.5}
+filter(ga_deliv_year_inc, !is.na(income_bin)) %>%
+  ggplot(aes(x = birth_year, y = perc)) +
+  geom_ribbon(aes(ymin = perc - 1.96 * pse, ymax = perc + 1.96 * pse, fill = deliv_type),
+    alpha = 0.3) +
+  geom_point(aes( color = deliv_type), show.legend = FALSE) +
+  geom_line(aes( color = deliv_type), show.legend = FALSE) +
+  facet_wrap(~ gest_weeks + income_bin, scales = "free_y") +
+  facet_grid(gest_weeks ~ income_bin, scales = "free_y") +
+  labs(
+    x = "Birth Year",
+    y = "Percent in group (delivery type and gestantional age) by year",
+    fill = "Delivery type") +
+  theme_bw() +
+  guides(fill = guide_legend(override.aes = list(alpha = 1))) +
+  scale_fill_tableau() +
+  scale_color_tableau()
+```
+
+For the lower income groups (R$ 0-200 and R$ 200-400), vaginal delivery always dominates cesarean, even in the most recent years. In these income groups, we also see a large jump in preterm birth proportion around 2010, particularly for babies born 32-36 weeks. For top three income groups, in the 32-36 gestational age group, we see cesarean births taking over vaginal, with both groups jumping significantly around 2010.
+
+### Approximate weight z-scores
+
+Another way to look at this is whether the difference in weight is
+
+```{r echo=FALSE, warning=FALSE, message=FALSE, fig.height=8}
+
+library(growthstandards)
+
+levels(brthwt_inc_ga$gest_weeks)
+
+tmp <- brthwt_inc_ga %>%
+  filter(! gest_weeks %in% c("Less than 22 weeks", "42 weeks and more")) %>%
+  mutate(gest_weeks2 = as.character(gest_weeks))
+
+tmp$gest_weeks2 <- recode(tmp$gest_weeks2,
+  "22-27 weeks" = 24.5,
+  "28 to 31 weeks" = 29.5,
+  "32-36 weeks" = 34,
+  "37-41 weeks" = 39
+)
+
+tmp$z <- igb_wtkg2zscore(tmp$gest_weeks2 * 7, tmp$mean_bwt / 1000)
+
+ggplot(tmp, aes(mean_inc, z)) +
+  geom_point(alpha = 0.15) +
+  geom_smooth(method = "loess", span = 1, se = FALSE) +
+  geom_abline(slope = 0, intercept = 0, linetype = 2, alpha = 0.7) +
+  scale_x_continuous(trans = "log10", breaks = c(100, 300, 800, 2000)) +
+  facet_grid(year ~ gest_weeks) +
+  theme_bw() +
+  labs(
+    # title = "Birth weight for gestational age z-score vs. mean income for each municipality by gestational age at birth and census year",
+    x = "Mean monthly income (R$)",
+    y = "Approximate birth weight for gestational age z-score")
+```
+
+This plot raises a different way of thinking about what might explain the difference between low and high income. This suggests that low income municipalities on average have pre-term babies that have a much higher birth weight than expected against the WHO standard (z-scores greater than 3) while higher income municipalities have babies with a more "expected" birth weight for pre term birth. This warrants some consideration as to why lower income babies would weigh more than they should at birth.
+
+Note that there are some caveats associated with this plot. First, since we don't know exact gestational age, we are using the midpoint of each gestational age range as the value against which we compute the z-score. Second, we are computing z-scores of the means, which have washed out the sex of the child, and the z-score standards are different for each case. However, the calculation should still be a useful approximation.
 
 # SINASC Data Prep
 
