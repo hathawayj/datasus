@@ -275,41 +275,6 @@ ggsave("hathaway/results/propbirth_race_byDelivetypeGestweeks.png", width = 12, 
 ########################################################################
 #  Find the relatinship between hospital and state for birth types by gestational age.
 ########################################################################
-
-
-deliv_hosp <- snsc %>%
-  group_by(birth_state_code, health_estbl_code, deliv_type) %>%
-  summarise(n = n(), birth_mean = mean(brthwt_g, na.rm = 2)) %>%
-  filter(!is.na(deliv_type), !is.na(health_estbl_code)) %>%
-  ungroup() %>% group_by(health_estbl_code, birth_state_code) %>%
-  mutate(perc = n/sum(n, na.rm = T), pse = sqrt(perc * (1- perc) / n)) %>%
-  ungroup() 
-
-brthwt_merge <- brthwt_inc %>%
-  filter(!duplicated(state_name)) %>%
-  select(state_code, state_name, region_name)
-  
-
-deliv_hosp <- deliv_hosp %>%
-  rename(state_code = birth_state_code) %>%
-  left_join(brthwt_merge)
-
-deliv_hosp %>%
-  filter(deliv_type == "Cesarean", n > 50) %>%
-  mutate(state_name = fct_reorder(state_name, perc)) %>%
-  ggplot(aes(x = perc)) +
-  facet_wrap(~state_name, scales = "free_y") +
-  geom_histogram( color = "white", bins = 10) +
-  theme_bw() +
-  labs(x = "Percentage of cesarean births (per hospital)", y = "Number of hospitals in bin", title = "Distribution of proportion cesareans at each hospital (n>50)") +
-  scale_x_continuous(breaks = c(.1, .3, .5, .7, .9), labels = c(10, 30, 50, 70, 90))
-
-ggsave("hathaway/results/prop_delivtype_hospital.png", width = 12, height = 6)
-
-# deliv_hosp %>%
-#   filter(deliv_type == "Cesarean", perc > .9, n > 50)
-  
-  
 ###### by year  ######
 
 

@@ -6,6 +6,40 @@ library(trelliscopejs)
 
 load("data/artifacts/hospital.Rdata")
 
+
+hosp %>%
+  filter(n > 50) %>%
+  mutate(state_name = fct_reorder(state_name, Cesarean, median, na.rm = TRUE)) %>%
+  ggplot(aes(x = Cesarean, fill = region_name)) +
+  facet_wrap(~state_name, scales = "free_y") +
+  geom_histogram( color = "white", bins = 10) +
+  theme_bw() +
+  theme(legend.position = "bottom") +
+  scale_fill_tableau() +
+  labs(x = "Percentage of cesarean births (per hospital)", y = "Number of hospitals in bin", fill = "Region",
+       title = "Distribution of proportion cesareans at each hospital (n>50)") +
+  scale_x_continuous(breaks = c(.1, .3, .5, .7, .9), labels = c(10, 30, 50, 70, 90))
+
+ggsave("hathaway/results/prop_delivtype_hospital.png", width = 12, height = 6)
+
+hosp %>%
+  filter(n > 50) %>%
+  mutate(state_name = fct_reorder(state_name, Cesarean, median, na.rm = TRUE)) %>%
+  ggplot(aes(x = state_name, y = Cesarean)) +
+  geom_boxplot(outlier.colour = NA) +
+  geom_jitter(aes(color = region_name), width = .25, alpha = .5) +
+  scale_color_tableau() +
+  theme_bw() +
+  theme(legend.position = "bottom", axis.text.x = element_text(angle = 45, vjust = 1, hjust = 1)) +
+  guides(color = guide_legend(override.aes = list(alpha = 1, size = 3))) +
+  labs(x = "State", y = "Percentage of cesarean births (per hospital)", color = "Region",
+       title = "Distribution of proportion cesareans at each hospital (n>50)") 
+
+ggsave("hathaway/results/prop_delivtype_hospital_boxplot.png", width = 12, height = 6)
+
+
+
+
 ###### by year  ######
 
 n200_hosp <- hosp %>%
