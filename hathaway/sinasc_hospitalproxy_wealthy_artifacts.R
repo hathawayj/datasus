@@ -39,6 +39,8 @@ dat <- snsc %>%
   filter(birth_year >= 2011)
 
 
+## Need to fix the birth_place variable that is different for the same health_estbl_code
+
 # Now build hospital data for just 2011 and 2015
 
 hosp <- dat %>%
@@ -146,5 +148,5 @@ state_delivtype <- dat %>%
   select(-n) %>%
   spread(deliv_type, perc, fill = 0)
 
-save(state_delivtype, dat, hosp, file = "data/hospital_snsc20112015.Rdata")
+save(state_delivtype, dat, hosp, file = "data/artifacts/hospital_snsc20112015.Rdata")
 
