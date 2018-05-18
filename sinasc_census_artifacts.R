@@ -70,7 +70,7 @@ ga_deliv_year_inc <- snsc %>%
     gest_weeks = fct_collapse(gest_weeks,
    `Less than 27 weeks` = c("22-27 weeks", "Less than 22 weeks"),
    `More than 37 weeks` = c("37-41 weeks", "42 weeks and more"),
-   `28-31 weeks` = "28 to 31 weeks",
+   `28-31 weeks` = "28-31 weeks",
    `32-36 weeks` = "32-36 weeks")) %>%
   left_join(filter(muni_inc2, year == 2010), by = c(m_muni_code = "muni_code")) %>%
   group_by(income_bin, gest_weeks, deliv_type, birth_year) %>%
@@ -83,5 +83,5 @@ ga_deliv_year_inc <- snsc %>%
 ##
 ##---------------------------------------------------------
 
-load("data/artifacts/muni_census_ga.Rdata")
+# load("data/artifacts/muni_census_ga.Rdata")
 save(brthwt_inc, brthwt_inc_ga, ga_deliv_year_inc, file = "data/artifacts/muni_census_ga.Rdata")

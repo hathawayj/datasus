@@ -75,4 +75,3 @@ muni_shps@data <- left_join(muni_shps@data, state_codes, by = c(UF = "state_code
 save(brthwt_muni, brthwt_muni_region, brthwt_muni_year,
   brthwt_muni_ga_year, brthwt_muni_deliv_year, muni_shps,
   file = "data/artifacts/muni_summaries.Rdata")
-

@@ -42,6 +42,53 @@ ggplot(brthwt_inc_ga, aes(mean_inc, mean_bwt)) +
     x = "Mean monthly income (R$)",
     y = "Mean birth weight (g)")
 
+
+## just 2010 and no "Less than 22 weeks"
+ggplot(filter(brthwt_inc_ga, gest_weeks != "Less than 22 weeks" & year == 2010),
+  aes(mean_inc, mean_bwt)) +
+  geom_point(alpha = 0.15) +
+  geom_smooth(method = "loess", span = 1, se = FALSE) +
+  geom_abline(slope = 0, intercept = log10(2500), linetype = 2, alpha = 0.7) +
+  scale_x_continuous(trans = "log10", breaks = c(100, 300, 800, 2000)) +
+  scale_y_continuous(trans = "log10", breaks = c(500, 1000, 1500, 2500, 4000)) +
+  facet_grid(~ gest_weeks) +
+  theme_bw() +
+  labs(
+    title = "Mean birthweight vs. mean income for each municipality by gestational age at birth",
+    x = "Mean monthly income (R$)",
+    y = "Mean birth weight (g)")
+
+## z-scores
+library(growthstandards)
+
+levels(brthwt_inc_ga$gest_weeks)
+
+tmp <- brthwt_inc_ga %>%
+  filter(! gest_weeks %in% c("Less than 22 weeks", "42 weeks and more") & year == 2010) %>%
+  mutate(gest_weeks2 = as.character(gest_weeks))
+
+tmp$gest_weeks2 <- recode(tmp$gest_weeks2,
+  "22-27 weeks" = 24.5,
+  "28-31 weeks" = 29.5,
+  "32-36 weeks" = 34,
+  "37-41 weeks" = 39
+)
+
+tmp$z <- igb_wtkg2zscore(tmp$gest_weeks2 * 7, tmp$mean_bwt / 1000)
+
+ggplot(tmp, aes(mean_inc, z)) +
+  geom_point(alpha = 0.15) +
+  geom_smooth(method = "loess", span = 1, se = FALSE) +
+  geom_abline(slope = 0, intercept = 0, linetype = 2, alpha = 0.7) +
+  scale_x_continuous(trans = "log10", breaks = c(100, 300, 800, 2000)) +
+  facet_grid(~ gest_weeks) +
+  theme_bw() +
+  labs(
+    # title = "Birth weight for gestational age z-score vs. mean income for each municipality by gestational age at birth and census year",
+    x = "Mean monthly income (R$)",
+    y = "Approximate birth weight for gestational age z-score")
+
+
 # ggplot(brthwt_inc_ga, aes(prop_4mw, prop_low_bwt)) +
 #   geom_point(alpha = 0.5) +
 #   geom_smooth(method = "loess", se = FALSE) +

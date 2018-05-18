@@ -25,6 +25,13 @@ brthwt_marital_status <- summarize_var_by(snsc, brthwt_g, marital_status)
 brthwt_m_age_yrs <- summarize_var_by(snsc, brthwt_g, m_age_yrs)
 brthwt_n_prenatal_visit <- summarize_var_by(snsc, brthwt_g, n_prenatal_visit)
 
+## proportion low birth weight by municipality and year
+##---------------------------------------------------------
+
+# gest_tab <- snsc %>%
+#   group_by(gest_weeks) %>%
+#   tally()
+
 save(daily_births, daily_births_deliv, brthwt_yearly, brthwt_gest_weeks,
   brthwt_preg_type, brthwt_deliv_type, brthwt_sex, brthwt_race, brthwt_m_educ,
   brthwt_marital_status, brthwt_m_age_yrs, brthwt_n_prenatal_visit,
