@@ -73,6 +73,20 @@ ggplot(state_inc, aes(year, prop_4mw * 100)) +
     x = "Year",
     y = "Percentage with household income less than 1/4 minimum wage")
 
+
+ggplot(state_inc, aes(year, prop_4mw * 100, color = region_name, group = state_code)) +
+  geom_line(size = 1) +
+  geom_point() +
+  scale_color_tableau("tableau10", guide = FALSE) +
+  facet_wrap(~ region_name, nrow = 1) +
+  # scale_x_continuous(labels = function(x) paste0("'", substr(x, 3, 4))) +
+  theme_bw() +
+  labs(
+    x = "Year",
+    y = "Percentage with household income less than 1/4 minimum wage")
+
+
+
 ## see how race income has changed over time
 ##---------------------------------------------------------
 

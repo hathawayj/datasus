@@ -64,7 +64,7 @@ library(growthstandards)
 levels(brthwt_inc_ga$gest_weeks)
 
 tmp <- brthwt_inc_ga %>%
-  filter(! gest_weeks %in% c("Less than 22 weeks", "42 weeks and more")) %>%
+  filter(! gest_weeks %in% c("Less than 22 weeks", "42 weeks and more") & year == 2010) %>%
   mutate(gest_weeks2 = as.character(gest_weeks))
 
 tmp$gest_weeks2 <- recode(tmp$gest_weeks2,
@@ -81,7 +81,7 @@ ggplot(tmp, aes(mean_inc, z)) +
   geom_smooth(method = "loess", span = 1, se = FALSE) +
   geom_abline(slope = 0, intercept = 0, linetype = 2, alpha = 0.7) +
   scale_x_continuous(trans = "log10", breaks = c(100, 300, 800, 2000)) +
-  facet_grid(year ~ gest_weeks) +
+  facet_grid(~ gest_weeks) +
   theme_bw() +
   labs(
     # title = "Birth weight for gestational age z-score vs. mean income for each municipality by gestational age at birth and census year",
