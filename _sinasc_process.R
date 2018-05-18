@@ -118,6 +118,8 @@ snsc$brthwt_g[snsc$brthwt_g == 9999] <- NA
 snsc$m_age_yrs[snsc$m_age_yrs == 0] <- NA
 snsc$m_age_yrs[snsc$m_age_yrs == 99] <- NA
 
+snsc <- snsc %>% tibble::as.tibble()
+
 save(snsc, file = "data/snsc_all.Rdata")
 
 ## extra investigation
